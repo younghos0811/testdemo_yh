@@ -1,0 +1,17 @@
+sample:
+  author: chotire
+  mail:
+    host: mail.gsitm.com
+    port: 25
+    from: chotire@gsitm.com
+  mime:
+    mime-mappings:
+      -
+        extension: xls
+        mime-type: application/vnd.ms-excel
+      -
+        extension: ppt
+        mime-type: application/vnd.ms-powerpoint
+      -
+        extension: doc
+        mime-type: application/vnd.ms-word

@@ -1,0 +1,64 @@
+[
+  {
+    "text": "조직도",
+    "checkable": false,
+    "nodes": [
+      {
+        "text": "경영지원본부",
+        "checkable": false,
+        "custom": "14AA00",
+        "nodes": [
+          {
+            "text": "경영지원담당",
+            "checkable": false,
+            "custom": "14AA17",
+            "nodes": [
+              {
+                "text": "인사파트",
+                "checkable": true,
+                "custom": "14AA05"
+              },
+              {
+                "text": "총무파트",
+                "checkable": true,
+                "custom": "14AA16"
+              },
+              {
+                "text": "RM팀",
+                "checkable": true,
+                "custom": "14AA18"
+              },
+              {
+                "text": "재무회계팀",
+                "checkable": true,
+                "custom": "14AA19"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "기획실",
+        "checkable": false,
+        "custom": "14GA00",
+        "nodes": [
+          {
+            "text": "기획팀",
+            "checkable": true,
+            "custom": "14GA02"
+          },
+          {
+            "text": "QA팀",
+            "checkable": true,
+            "custom": "14GA07"
+          },
+          {
+            "text": "보안파트",
+            "checkable": true,
+            "custom": "14GA08"
+          }
+        ]
+      }
+    ]
+  }
+]

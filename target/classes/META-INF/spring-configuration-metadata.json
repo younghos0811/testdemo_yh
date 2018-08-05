@@ -1,0 +1,124 @@
+{
+  "groups": [
+    {
+      "name": "sample",
+      "type": "com.gsitm.sample.config.SampleProperties",
+      "sourceType": "com.gsitm.sample.config.SampleProperties"
+    },
+    {
+      "name": "sample.mail",
+      "type": "com.gsitm.sample.config.SampleProperties$Mail",
+      "sourceType": "com.gsitm.sample.config.SampleProperties",
+      "sourceMethod": "public com.gsitm.sample.config.SampleProperties.Mail getMail() "
+    },
+    {
+      "name": "sample.mail",
+      "type": "com.gsitm.sample.config.SampleProperties$Mail",
+      "sourceType": "com.gsitm.sample.config.SampleProperties"
+    },
+    {
+      "name": "sample.mime",
+      "type": "com.gsitm.sample.config.SampleProperties$Mime",
+      "sourceType": "com.gsitm.sample.config.SampleProperties",
+      "sourceMethod": "public com.gsitm.sample.config.SampleProperties.Mime getMime() "
+    },
+    {
+      "name": "sample.mime",
+      "type": "com.gsitm.sample.config.SampleProperties$Mime",
+      "sourceType": "com.gsitm.sample.config.SampleProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "sample.author",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties"
+    },
+    {
+      "name": "sample.author",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties"
+    },
+    {
+      "name": "sample.mail.from",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.from",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.from",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.from",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.host",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.host",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.host",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.host",
+      "type": "java.lang.String",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mail.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mail"
+    },
+    {
+      "name": "sample.mime.mime-mappings",
+      "type": "java.util.List<com.gsitm.sample.config.SampleProperties.Mime.MimeMapping>",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mime"
+    },
+    {
+      "name": "sample.mime.mime-mappings",
+      "type": "java.util.List<com.gsitm.sample.config.SampleProperties.Mime.MimeMapping>",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mime"
+    },
+    {
+      "name": "sample.mime.mime-mappings",
+      "type": "java.util.List<com.gsitm.sample.config.SampleProperties.Mime.MimeMapping>",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mime"
+    },
+    {
+      "name": "sample.mime.mime-mappings",
+      "type": "java.util.List<com.gsitm.sample.config.SampleProperties.Mime.MimeMapping>",
+      "sourceType": "com.gsitm.sample.config.SampleProperties$Mime"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <!-- template -->
+  <definition name="template">
+    <put-attribute name="style" value="/WEB-INF/layouts/style.jsp" />
+    <put-attribute name="script" value="/WEB-INF/layouts/script.jsp" />
+    <put-attribute name="alert" value="/WEB-INF/layouts/alert.jsp" />
+    <put-attribute name="confirm" value="/WEB-INF/layouts/confirm.jsp" />
+  </definition>
+
+  <!-- default layout -->
+  <definition name="default:**" template="/WEB-INF/layouts/defaultLayout.jsp" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+  </definition>
+
+  <definition name="popup:**" template="/WEB-INF/layouts/popupLayout.jsp" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+  </definition>
+  
+  <!-- sample -->
+  <definition name="sample:**" template="/WEB-INF/layouts/sampleLayout.jsp" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+  </definition>
+
+  <definition name="sample-popup:**" template="/WEB-INF/layouts/samplePopupLayout.jsp" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+  </definition>
+</tiles-definitions>

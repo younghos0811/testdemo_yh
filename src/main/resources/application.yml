@@ -1,0 +1,54 @@
+server:
+  address: 127.0.0.1 #adress를 지정하지 않으면 spring.boot.admin에서 host네임을 이용하여 접근하여 정상적으로 서비스가 안 됨. 때문에 address를 지정해야 함
+  port: 80
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  datasource:
+    url: jdbc:h2:~/demo
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  boot:
+    admin: #아래 remote shell의 웹버전?
+      url: http://127.0.0.1/console
+      context-path: /console
+      client:
+        prefer-ip: true
+        name: actuator-examples(by chotire)
+
+mybatis:
+  config-location: classpath:sqlmap/sqlmap-config.xml
+  mapper-locations: classpath:sqlmap/mapper/**/*.xml
+  type-aliases-package: com.gsitm
+  
+info: #actuator의 info endpoint에 전달하는 정보를 설정파일에 기입할 수도 있다.
+  app:
+    name: Spring Actuator Example
+    description: Spring Actuator Working Examples
+    version: 1.0
+    
+management:
+  address: 127.0.0.1
+  port: 8081 #app의 서비스 포트(위 설정으로는 8080)와 actuator의 서버스 포트가 같다면 보안상 좋지 않으므로 별도의 포트로 서비스
+  context-path: /management #actuator 서버스 context path
+  shell: #remote shell을 통해 서비스 모니터링 (putty와 같은 터미널 도구로 -> ssh -p 2000 chotire@localhost로 접속)
+    auth: 
+      simple:
+        user:
+          name: chotire
+          password: shell
+    ssh:
+      port: 2000 #디폴트 포트가 원래 2000.. 포트 변경 원할 때 변경~
+    
+endpoints: #actuator의 endpoint에 접근하여 서버를 shutdown 시킬 수 있는 기능을 활성화 (production 환경에서는 사용하면 안 되겠지??)
+  shutdown:
+    enabled: true

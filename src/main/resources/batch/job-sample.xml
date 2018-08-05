@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.2.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+  <import resource="classpath:batch/context.xml" />
+
+  <bean id="sampleItemReader" class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="sql">
+      <value>
+        <![CDATA[
+        SELECT *
+          FROM emp
+         WHERE hire_date >= '#{jobParameters[startDate]}'
+           AND hire_date <= '#{jobParameters[endDate]}'
+        ]]>
+      </value>
+    </property>
+    <property name="rowMapper">
+      <bean class="com.gsitm.sample.batch.EmployeeRowMapper" />
+    </property>
+  </bean>
+
+  <bean id="sampleItemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+    <property name="dataSource" ref="dataSource" />
+    <property name="sql">
+      <value>
+        <![CDATA[
+        INSERT INTO emp (
+            name
+           ,salary
+           ,hire_date
+           ,dept)
+        VALUES (
+            :name
+           ,:salary
+           ,:hireDate
+           ,:dept)
+        ]]>
+      </value>
+    </property>
+    <property name="itemSqlParameterSourceProvider">
+      <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+    </property>
+  </bean>
+
+  <job id="sampleJob" xmlns="http://www.springframework.org/schema/batch">
+    <step id="sampleStep">
+      <tasklet>
+        <chunk reader="sampleItemReader" writer="sampleItemWriter" commit-interval="100" />
+      </tasklet>
+    </step>
+  </job>
+
+  <bean id="sampleJobScheduler" class="com.gsitm.sample.batch.EmployeeJobScheduler">
+    <property name="jobLauncher" ref="jobLauncher" />
+    <property name="job" ref="sampleJob" />
+  </bean>
+
+  <task:scheduled-tasks>
+    <!--task:scheduled ref="sampleJobScheduler" method="run" cron="*/15 * * * * *" /-->
+    <task:scheduled ref="sampleJobScheduler" method="run" cron="0 29 16 * * *" />
+  </task:scheduled-tasks>
+</beans>

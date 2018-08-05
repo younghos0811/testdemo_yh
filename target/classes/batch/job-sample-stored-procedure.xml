@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.2.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+  <import resource="classpath:batch/context.xml" />
+
+  <bean id="storedProcedureItemReader" class="org.springframework.batch.item.database.StoredProcedureItemReader" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="procedureName" value="GET_PAPER_LIST4" />
+    <property name="parameters">
+      <list>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="list_type" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="user_id" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="code" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="cust_nm" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="user_nm" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="subject" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="order_by" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="page_no" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.INTEGER" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="max_rec" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.INTEGER" />
+          </constructor-arg>
+        </bean>
+        <bean class="org.springframework.jdbc.core.SqlParameter">
+          <constructor-arg index="0" value="sys_type" />
+          <constructor-arg index="1">
+            <util:constant static-field="java.sql.Types.VARCHAR" />
+          </constructor-arg>
+        </bean>
+      </list>
+    </property>
+    <property name="preparedStatementSetter">
+      <bean id="preparedStatementSetter" class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+        <property name="parameters">
+          <list>
+            <value>receive</value>
+            <value>CJ65</value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value>MAKEDATE</value>
+            <value>1</value>
+            <value>20</value>
+            <value>D</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="rowMapper">
+      <bean class="com.gsitm.sample.batch.PaperRowMapper" />
+    </property>
+  </bean>
+
+  <bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+    <!-- write to this csv file -->
+    <property name="resource" value="file:target/outputs/cvs/stored-procedure-result.csv" />
+    <property name="shouldDeleteIfExists" value="true" />
+    <property name="lineAggregator">
+      <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+        <property name="delimiter" value="," />
+        <property name="fieldExtractor">
+          <bean class="org.springframework.batch.item.file.transform.PassThroughFieldExtractor" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <job id="storedProcedureJob" xmlns="http://www.springframework.org/schema/batch">
+    <step id="storedProcedureStep">
+      <tasklet>
+        <chunk reader="storedProcedureItemReader" writer="flatFileItemWriter" commit-interval="20" />
+      </tasklet>
+    </step>
+  </job>
+
+  <bean id="paperJobScheduler" class="com.gsitm.sample.batch.PaperJobScheduler">
+    <property name="jobLauncher" ref="jobLauncher" />
+    <property name="job" ref="storedProcedureJob" />
+  </bean>
+
+  <task:scheduled-tasks>
+    <!--task:scheduled ref="storedProcedureTaskletJobScheduler" method="run" cron="*/10 * * * * *" /-->
+    <task:scheduled ref="paperJobScheduler" method="run" cron="0 29 16 * * *" />
+  </task:scheduled-tasks>
+</beans>

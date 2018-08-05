@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Title: springboot-demo
+Implementation-Version: 1.0
+Built-By: ￬ﾜﾠ￬ﾊﾹ￬ﾧﾄ
+Implementation-Vendor-Id: com.gsitm.education
+Build-Jdk: 1.8.0_101
+Implementation-URL: http://projects.spring.io/spring-boot/springboot-d
+ emo/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+Main-Class: com.gsitm.Application
+

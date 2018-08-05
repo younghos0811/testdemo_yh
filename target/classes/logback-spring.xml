@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- http://java.ihoney.pe.kr/397 -->
+<!-- 30초마다 설정 파일의 변경을 확인한다. 파일이 변경되면 다시 로딩한다 -->
+<configuration scan="true" scanPeriod="30 seconds">
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <springProfile name="dev">
+    <logger name="org.springframework.jdbc" level="DEBUG" />
+    <logger name="org.mybatis" level="DEBUG" />
+    <logger name="com.gsitm" level="DEBUG" />
+    <root level="INFO">
+      <appender-ref ref="CONSOLE" />
+    </root>
+  </springProfile>
+
+  <springProfile name="prod">
+  	<property name="LOG_PATH" value="target/logs/mdoumi"/>
+
+    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${LOG_PATH}.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- 파일이 하루에 한 개씩 생성된다 -->
+        <fileNamePattern>${LOG_PATH}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <!-- 기본적으로 파일이 하루에 한 개씩 생성되지만 한 파일에 대용량의 로그가 남지 않도록 제한 -->
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+          <maxFileSize>50MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+        <!-- 15일이 지난 파일은 삭제가 된다. -->
+        <maxHistory>15</maxHistory>
+      </rollingPolicy>
+
+      <encoder>
+        <pattern>${FILE_LOG_PATTERN}</pattern>
+      </encoder>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="ROLLING-FILE" />
+    </root>
+  </springProfile>
+</configuration>

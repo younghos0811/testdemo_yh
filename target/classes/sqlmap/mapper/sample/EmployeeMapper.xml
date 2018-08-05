@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsitm.sample.service.EmployeeMapper">
+  <sql id="employeeSelectSql">
+    SELECT no
+          ,name
+          ,salary
+          ,hire_date
+          ,dept
+      FROM emp
+  </sql>
+
+  <select id="findAll" resultType="Employee">
+    <include refid="com.gsitm.sample.service.EmployeeMapper.employeeSelectSql" />
+  </select>
+    
+  <select id="findEmployeesByColumn" resultType="Employee">
+    <include refid="com.gsitm.sample.service.EmployeeMapper.employeeSelectSql" />
+     WHERE 1 = 1
+    <foreach item="column" collection="input.columns">
+      <if test="column.search.value != null">
+       AND ${@com.gsitm.base.datatables.mapping.CaseFormat@convertPropertyNameToUnderscoreName(column.data)} LIKE '%' || #{column.search.value} || '%'
+      </if> 
+    </foreach>
+  </select>
+  
+  <select id="findEmployeesByCustom" resultType="Employee">
+    <include refid="com.gsitm.sample.service.EmployeeMapper.employeeSelectSql" />
+     WHERE 1 = 1
+     <if test="name != null">
+       AND name LIKE '%' || #{name} || '%'
+     </if>
+     <if test="startHireDate != null and endHireDate != null">
+       AND hire_date BETWEEN #{startHireDate} AND #{endHireDate}
+     </if>
+     <if test="dept != null">
+       AND dept LIKE '%' || #{dept} || '%'
+     </if>
+  </select>
+
+  <select id="getEmployeeByNo" resultType="Employee">
+    <include refid="com.gsitm.sample.service.EmployeeMapper.employeeSelectSql" />
+     WHERE no = #{no}
+  </select>
+
+  <select id="findEmployeesByName" resultType="Employee">
+    <include refid="com.gsitm.sample.service.EmployeeMapper.employeeSelectSql" />
+     WHERE name = #{name}
+  </select>
+  
+  <insert id="addEmployee" useGeneratedKeys="true" keyProperty="no">
+    INSERT INTO emp (
+        name
+       ,salary
+       ,hire_date
+       ,dept)
+    VALUES (
+        #{name}
+       ,#{salary}
+       ,#{hireDate}
+       ,#{dept})
+  </insert>
+  
+  <update id="editEmployee">
+    UPDATE emp
+       SET name = #{name}
+          ,salary = #{salary}
+          ,hire_date = #{hireDate}
+          ,dept = #{dept}
+     WHERE no = #{no}
+  </update>
+  
+  <delete id="delEmployee">
+    DELETE
+      FROM emp
+     WHERE no = #{no}
+  </delete>
+</mapper>

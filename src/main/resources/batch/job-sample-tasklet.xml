@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.2.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+  <import resource="classpath:batch/context.xml" />
+
+  <bean id="storedProcedureTasklet" class="com.gsitm.sample.batch.StoredProcedureTasklet" scope="step">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <job id="storedProcedureTaskletJob" xmlns="http://www.springframework.org/schema/batch">
+    <step id="storedProcedureTaskletStep">
+      <tasklet ref="storedProcedureTasklet" />
+    </step>
+  </job>
+
+  <bean id="storedProcedureTaskletJobScheduler" class="com.gsitm.sample.batch.StoredProcedureTaskletJobScheduler">
+    <property name="jobLauncher" ref="jobLauncher" />
+    <property name="job" ref="storedProcedureTaskletJob" />
+  </bean>
+
+  <task:scheduled-tasks>
+    <!--task:scheduled ref="storedProcedureTaskletJobScheduler" method="run" cron="*/10 * * * * *" /-->
+    <task:scheduled ref="paperJobScheduler" method="run" cron="0 29 16 * * *" />
+  </task:scheduled-tasks>
+</beans>
